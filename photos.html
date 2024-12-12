@@ -156,6 +156,52 @@
             .album-card {
                 width: 100%;
             }
+
+            body {
+                padding: 1rem;
+                padding-bottom: 160px;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .social-buttons {
+                bottom: 20px;
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+            }
+
+            .social-button {
+                flex: 1;
+                min-width: 100px;
+                max-width: 150px;
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .social-buttons {
+                flex-direction: column;
+                padding: 0.5rem;
+            }
+
+            .social-button {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            body {
+                padding-bottom: 180px;
+            }
         }
 
         .social-buttons {
@@ -216,14 +262,6 @@
             background: rgba(255, 0, 0, 0.1);
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
         }
-
-        @media (max-width: 768px) {
-            .social-buttons {
-                bottom: 20px;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -257,18 +295,22 @@
     </div>
 
     <div class="social-buttons">
-        <a href="https://www.instagram.com/selahattin.acar.dugun.salonu/" target="_blank" class="social-button instagram-button">
+        <a href="https://www.instagram.com/" target="_blank" class="social-button instagram-button">
             <i class="fab fa-instagram"></i>
             Instagram
         </a>
-        <a href="https://www.youtube.com/playlist?list=PLf2CTaVxdAe-DubXPymjCcC80gH62b3Or" target="_blank" class="social-button youtube-button">
+        <a href="https://www.youtube.com/" target="_blank" class="social-button youtube-button">
             <i class="fab fa-youtube"></i>
             YouTube
         </a>
         <a href="calendar.html" class="social-button calendar-button">
-            <i class="fas fa-calendar-alt"></i>
+            <i class="far fa-calendar-alt"></i>
             Takvim
+        </a>
+        <a href="services.html" class="social-button calendar-button">
+            <i class="fas fa-concierge-bell"></i>
+            Hizmetlerimiz
         </a>
     </div>
 </body>
-</html> 
+</html>

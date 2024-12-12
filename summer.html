@@ -249,6 +249,37 @@
             background: rgba(0, 255, 255, 0.1);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                padding-bottom: 160px;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .album {
+                padding: 2rem 0;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .photo-card {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding-bottom: 180px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -642,4 +673,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

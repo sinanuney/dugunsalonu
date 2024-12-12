@@ -108,6 +108,37 @@
             color: #fff;
             text-shadow: 0 0 10px #ff00ff;
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                padding-bottom: 160px;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .video-card {
+                width: 100%;
+            }
+
+            iframe {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding-bottom: 180px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -220,4 +251,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>
