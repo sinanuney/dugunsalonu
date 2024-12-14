@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazlık Albüm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(
+                -45deg,
+                #000000,
+                #1a1003,
+                #332b00,
+                #000000
+            );
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            padding: 2rem;
+        }
+
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: auto;
+            z-index: 1000;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .album {
+            padding: 4rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .album-title {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #ffd700;
+            padding-left: 1rem;
+            border-left: 3px solid #ffd700;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .photo-card {
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ffd700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 1rem;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            text-shadow: 0 0 10px #ff00ff;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .modal-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
+        .modal-button {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff00ff;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-button:hover {
+            background: rgba(255, 0, 255, 0.2);
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 1rem;
+            text-shadow: 0 0 10px #ff00ff;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-nav:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        .modal-image.zoomed {
+            cursor: move;
+        }
+
+        .winter-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px #00ffff;
+            transition: all 0.3s ease;
+            border: 1px solid #00ffff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .winter-button:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                padding-bottom: 160px;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .album {
+                padding: 2rem 0;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .photo-card {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding-bottom: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="https://i.ibb.co/hMpVqdq/BEYAZZ.png" alt="Logo" class="logo">
+    <a href="photos.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Albümlere Dön
+    </a>
+
+    <a href="winter.html" class="winter-button">
+        <i class="fas fa-snowflake"></i>
+        Kışlık Albüm
+    </a>
+
+    <div class="album">
+        <h2 class="album-title">Yazlık Albüm</h2>
+        <div class="gallery">
+            <div class="photo-card">
+                <img src="https://i.ibb.co/JnVF9GD/Bu-yu-k-IMG-6570.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/Pj7jWjy/Bu-yu-k-IMG-6571.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/4txyx1p/Bu-yu-k-IMG-6572.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/7NdzW79/Bu-yu-k-IMG-6573.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/g4d2jbK/Bu-yu-k-IMG-6574.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/P6zvR8f/Bu-yu-k-IMG-6575.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/N7p5W9S/Bu-yu-k-IMG-6576.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/XZsvwfN/Bu-yu-k-IMG-6577.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/njL8289/Bu-yu-k-IMG-6578.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/7R4ZFhh/Bu-yu-k-IMG-6579.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/9Tpgh3X/Bu-yu-k-IMG-6581.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/qR7wGXW/Bu-yu-k-IMG-6582.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/9VhcXTb/Bu-yu-k-IMG-6584.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/v4HFTDn/Bu-yu-k-IMG-6585.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/zxbzD3N/Bu-yu-k-IMG-6586.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/SxZyx9X/Bu-yu-k-IMG-6587.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/ZgTx5jv/Bu-yu-k-IMG-6588.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/CwjccHB/Bu-yu-k-IMG-6589.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/TwcBVVn/Bu-yu-k-IMG-6590.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/XZmZ6kw/Bu-yu-k-IMG-6591.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/K7YbwdJ/Bu-yu-k-IMG-6592.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/4jVfLHv/Bu-yu-k-IMG-6593.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/DD6VThM/Bu-yu-k-IMG-6594.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/y8K0sj1/Bu-yu-k-IMG-6595.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/D9t1WQc/Bu-yu-k-IMG-6614.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/L54LLw3/Bu-yu-k-IMG-6615.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/NWqDxvm/Bu-yu-k-IMG-6640.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/12jFbLC/Bu-yu-k-IMG-6641.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/VDv3784/Bu-yu-k-IMG-6642.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/RYZd40P/Bu-yu-k-IMG-6643.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/nDGtfC5/Bu-yu-k-IMG-6646.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/d7w0yRS/Bu-yu-k-IMG-6648.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/R61CwN5/Bu-yu-k-IMG-6649.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/VBtSzMr/Bu-yu-k-IMG-6652.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/hCdqMzG/Bu-yu-k-IMG-6653.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/3MfTzw0/Bu-yu-k-IMG-6655.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/Wyft0Dr/Bu-yu-k-IMG-6656.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/9rCjN3p/Bu-yu-k-IMG-6657.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/8NSVps8/Bu-yu-k-IMG-6658.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/B31VcRq/Bu-yu-k-IMG-6659.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/0V9Cwh7/Bu-yu-k-IMG-6660.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/2hWjdf6/Bu-yu-k-IMG-6661.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/qNZbTKB/Bu-yu-k-IMG-7638.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/kh1Wc16/Bu-yu-k-IMG-7641.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/rm7tPJ8/Bu-yu-k-IMG-7644.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/N2jHkKY/Bu-yu-k-IMG-7645.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/C1D27kJ/Bu-yu-k-IMG-7649.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/HFfPD8v/Bu-yu-k-IMG-7650.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/mBRyKy0/Bu-yu-k-IMG-8276.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://i.ibb.co/pLyBcwZ/Bu-yu-k-IMG-8277.jpg" alt="Yazlık Mekan">
+                <div class="photo-overlay">Yazlık Mekan</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close"></i>
+            <i class="fas fa-chevron-left modal-nav modal-prev"></i>
+            <i class="fas fa-chevron-right modal-nav modal-next"></i>
+            <img src="" alt="" class="modal-image">
+            <div class="modal-caption"></div>
+        </div>
+        <div class="modal-controls">
+            <button class="modal-button" id="zoomIn">
+                <i class="fas fa-search-plus"></i>
+            </button>
+            <button class="modal-button" id="zoomOut">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="modal-button" id="fullscreen">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.querySelector('.modal');
+        const modalImage = document.querySelector('.modal-image');
+        const modalCaption = document.querySelector('.modal-caption');
+        const modalClose = document.querySelector('.modal-close');
+        const photoCards = document.querySelectorAll('.photo-card');
+        const prevButton = document.querySelector('.modal-prev');
+        const nextButton = document.querySelector('.modal-next');
+        const zoomInButton = document.getElementById('zoomIn');
+        const zoomOutButton = document.getElementById('zoomOut');
+        const fullscreenButton = document.getElementById('fullscreen');
+
+        let currentIndex = 0;
+        let scale = 1;
+        let isDragging = false;
+        let startPos = { x: 0, y: 0 };
+        let currentPos = { x: 0, y: 0 };
+
+        // Fotoğraf görüntüleme
+        function showImage(index) {
+            const images = document.querySelectorAll('.photo-card img');
+            const captions = document.querySelectorAll('.photo-overlay');
+            currentIndex = index;
+            
+            modalImage.src = images[index].src;
+            modalImage.alt = images[index].alt;
+            modalCaption.textContent = captions[index].textContent;
+            
+            // Reset zoom ve pozisyon
+            scale = 1;
+            currentPos = { x: 0, y: 0 };
+            modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+        }
+
+        photoCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                showImage(index);
+                modal.classList.add('active');
+            });
+        });
+
+        // Navigasyon
+        prevButton.addEventListener('click', () => {
+            const images = document.querySelectorAll('.photo-card img');
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            const images = document.querySelectorAll('.photo-card img');
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        });
+
+        // Zoom kontrolleri
+        zoomInButton.addEventListener('click', () => {
+            scale = Math.min(scale + 0.2, 3);
+            modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+            if (scale > 1) modalImage.classList.add('zoomed');
+        });
+
+        zoomOutButton.addEventListener('click', () => {
+            scale = Math.max(scale - 0.2, 1);
+            modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+            if (scale === 1) {
+                modalImage.classList.remove('zoomed');
+                currentPos = { x: 0, y: 0 };
+            }
+        });
+
+        // Sürükleme işlemi
+        modalImage.addEventListener('mousedown', (e) => {
+            if (scale > 1) {
+                isDragging = true;
+                startPos = {
+                    x: e.clientX - currentPos.x,
+                    y: e.clientY - currentPos.y
+                };
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                currentPos = {
+                    x: e.clientX - startPos.x,
+                    y: e.clientY - startPos.y
+                };
+                modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Tam ekran
+        fullscreenButton.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen();
+                fullscreenButton.innerHTML = '<i class="fas fa-compress"></i>';
+            } else {
+                document.exitFullscreen();
+                fullscreenButton.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+        });
+
+        // Klavye kontrolleri
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('active')) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        prevButton.click();
+                        break;
+                    case 'ArrowRight':
+                        nextButton.click();
+                        break;
+                    case '+':
+                        zoomInButton.click();
+                        break;
+                    case '-':
+                        zoomOutButton.click();
+                        break;
+                    case 'f':
+                        fullscreenButton.click();
+                        break;
+                    case 'Escape':
+                        modal.classList.remove('active');
+                        break;
+                }
+            }
+        });
+
+        // Mevcut kapatma işleyicileri
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            scale = 1;
+            currentPos = { x: 0, y: 0 };
+            modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+            modalImage.classList.remove('zoomed');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                scale = 1;
+                currentPos = { x: 0, y: 0 };
+                modalImage.style.transform = `scale(${scale}) translate(${currentPos.x}px, ${currentPos.y}px)`;
+                modalImage.classList.remove('zoomed');
+            }
+        });
+    </script>
+</body>
+</html>
