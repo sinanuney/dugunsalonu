@@ -3,343 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinterest Style Photo Gallery</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: white;
-        }
-        .back-button {
-            position: fixed; /* Fixes the button to the top of the viewport */
-            top: 20px; /* Distance from the top */
-            left: 20px; /* Distance from the left */
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px #ffd700;
-            transition: all 0.3s ease;
-            z-index: 1000; /* Ensure it's above other elements */
-        }
-        .back-button:hover {
-            transform: translateX(-5px);
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
-            gap: 10px;
-            padding: 20px;
-            margin-top: 80px; /* Space for back button */
-        }
-        .gallery img {
-            width: 100%;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: block;
-            object-fit: cover; /* Ensures images cover their container */
-            height: 200px; /* Set a fixed height for the images */
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: auto;
-            max-width: 80%;
-            max-height: 80%;
-            transition: transform 0.3s ease; /* Smooth transition when zoomed */
-        }
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .close:hover {
-            transform: scale(1.2);
-        }
-        .nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .prev { left: 10px; }
-        .next { right: 10px; }
-        .nav:hover {
-            transform: scale(1.3);
-        }
-        .zoom-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .zoom-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            margin: 0 10px;
-            transition: transform 0.2s;
-        }
-        .zoom-btn:hover {
-            transform: scale(1.3);
-        }
-        .social-buttons {
-            position: fixed; /* Keeps the buttons fixed */
-            bottom: 30px; /* Distance from the bottom */
-            left: 50%; /* Center horizontally */
-            transform: translateX(-50%); /* Center adjustment */
-            display: flex;
-            gap: 1rem;
-            z-index: 1000; /* Ensure it's above other elements */
-            opacity: 0; /* Start as hidden */
-            transition: opacity 0.3s ease; /* Transition for visibility */
-        }
-        .social-button {
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.5);
-            min-width: 130px;
-            justify-content: center;
-        }
-        .instagram-button {
-            border: 1px solid #ffd700;
-            text-shadow: 0 0 10px #ffd700;
-        }
-        .youtube-button {
-            border: 1px solid #ff0000;
-            text-shadow: 0 0 10px #ff0000;
-        }
-        .calendar-button {
-            border: 1px solid #ffd700;
-            text-shadow: 0 0 10px #ffd700;
-        }
-        .calendar-button:hover {
-            background: rgba(255, 215, 0, 0.1);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .social-button:hover {
-            transform: translateY(-5px);
-        }
-        .instagram-button:hover {
-            background: rgba(255, 215, 0, 0.1);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .youtube-button:hover {
-            background: rgba(255, 0, 0, 0.1);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-    </style>
+    <title>Dış Çekim</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <nav>
+            <a href="index.html">Anasayfa</a>
+            <a href="photos.html">Fotoğraflar</a>
+            <a href="videos.html">Videolar</a>
+            <a href="services.html">Hizmetlerimiz</a>
+            <a href="calendar.html">Takvim</a>
+            <a href="outdoors.html">Dış Çekimler</a>
+        </nav>
+    </header>
 
-<a href="index.html" class="back-button">
-    <i class="fas fa-arrow-left"></i>
-    Geri Dön
-</a>
+    <!-- carousel -->
+    <div class="carousel">
+        <!-- list item -->
+        <div class="list">
+            <div class="item">
+                <img src="image/img1.jpg">
+                <div class="content">
+                    <div class="author">Düğün</div>
+                    <div class="title">Azize & Melih </div>
+                    <div class="topic">izmir Smyra Plato & Pamucak Sahili</div>
+                    <div class="des">
+                        .
+                    </div>
+                    <div class="buttons">
+                        <a href="albums-2.html"><button>Albüme Git</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img2.jpg">
+                <div class="content">
+                    <div class="author">Düğün</div>
+                    <div class="title">Melisa & Burak </div>
+                    <div class="topic">Selçuk Artemis & Pamucak Sahil</div>
+                    <div class="des">
+                        .
+                    </div>
+                    <div class="buttons">
+                        <a href="albums-1.html"><button>Albüme Git</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img3.jpg">
+                <div class="content">
+                    <div class="author">Düğün</div>
+                    <div class="title">Ali & Tuğçe</div>
+                    <div class="topic">Arslanlı Plato</div>
+                    <div class="des">
+                        .
+                    </div>
+                    <div class="buttons">
+                        <a href="albums-3.html"><button>Albüme Git</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img4.jpg">
+                <div class="content">
+                    <div class="author">Düğün</div>
+                    <div class="title">Ayşe & Batuhan</div>
+                    <div class="topic">Turunç Park Plato</div>
+                    <div class="des">
+                      .
+                    </div>
+                    <div class="buttons">
+                        <a href="albums-4.html"><button>Albüme Git</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- list thumnail -->
+        <div class="thumbnail">
+            <div class="item">
+                <img src="https://i.ibb.co/FDLLP2c/img1.jpg">
+                <div class="content">
+                    <div class="title">
+                        Azize & Melih
+                    </div>
+                    <div class="description">
+                        izmir Smyra Plato & Pamucak Sahili
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.ibb.co/q0HHXkh/img2.jpg">
+                <div class="content">
+                    <div class="title">
+                        Melisa & Burak
+                    </div>
+                    <div class="description">
+                        Selçuk Artemis & Pamucak Sahili
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.ibb.co/QCnFC2c/img3.jpg">
+                <div class="content">
+                    <div class="title">
+                        Ali & Tuğçe
+                    </div>
+                    <div class="description">
+                        Arslanlı Plato
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.ibb.co/LZDxSCJ/img4.jpg">
+                <div class="content">
+                    <div class="title">
+                        Ayşe & Batuhan
+                    </div>
+                    <div class="description">
+                        Turunç Park Plato
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- next prev -->
 
-<main>
-    <div class="gallery">
-        <img src="https://i.ibb.co/Qr7GDjM/Bu-yu-k-STL-8853.jpg" onclick="openModal(0)">
-        <img src="https://i.ibb.co/7CFmygB/Bu-yu-k-STL-8827.jpg" onclick="openModal(1)">
-        <img src="https://i.ibb.co/MC3Dncf/Bu-yu-k-STI-9986.jpg" onclick="openModal(2)">
-        <img src="https://i.ibb.co/9HV8HBH/Bu-yu-k-STI-9941.jpg" onclick="openModal(3)">
-        <img src="https://i.ibb.co/3mVhWDK/Bu-yu-k-STI-9922.jpg" onclick="openModal(4)">
-        <img src="https://i.ibb.co/2swm87c/Bu-yu-k-STI-9459.jpg" onclick="openModal(5)">
-        <img src="https://i.ibb.co/PcHfbBY/Bu-yu-k-STI-9418.jpg" onclick="openModal(6)">
-        <img src="https://i.ibb.co/MpdkCxj/Bu-yu-k-STI-9407.jpg" onclick="openModal(7)">
-        <img src="https://i.ibb.co/m0RwsHd/Bu-yu-k-STI-9368.jpg" onclick="openModal(8)">
-        <img src="https://i.ibb.co/CB9B72h/Bu-yu-k-STI-9319.jpg" onclick="openModal(9)">
-        <img src="https://i.ibb.co/JHW2P2s/Bu-yu-k-STI-9315.jpg" onclick="openModal(10)">
-        <img src="https://i.ibb.co/h7ZRJ8g/Bu-yu-k-STI-9232.jpg" onclick="openModal(11)">
-        <img src="https://i.ibb.co/9nLFWS0/Bu-yu-k-STI-9192.jpg" onclick="openModal(12)">
-        <img src="https://i.ibb.co/Cn9fxk9/Bu-yu-k-STI-9177.jpg" onclick="openModal(13)">
-        <img src="https://i.ibb.co/kycz7r9/Bu-yu-k-STI-9162.jpg" onclick="openModal(14)">
-        <img src="https://i.ibb.co/B3tN3Yh/Bu-yu-k-STI-7044.jpg" onclick="openModal(15)">
-        <img src="https://i.ibb.co/BzGvKwq/Bu-yu-k-STI-6999.jpg" onclick="openModal(16)">
-        <img src="https://i.ibb.co/7Qh57c6/Bu-yu-k-STI-6868.jpg" onclick="openModal(17)">
-        <img src="https://i.ibb.co/mNvDct5/Bu-yu-k-STI-6809.jpg" onclick="openModal(18)">
-        <img src="https://i.ibb.co/2yh8tVW/Bu-yu-k-STI-6713.jpg" onclick="openModal(19)">
-        <img src="https://i.ibb.co/vH72Nrn/Bu-yu-k-STI-6670.jpg" onclick="openModal(20)">
-        <img src="https://i.ibb.co/RS6tTTn/Bu-yu-k-STI-5973.jpg" onclick="openModal(21)">
-        <img src="https://i.ibb.co/JK8Txmw/Bu-yu-k-STI-5925.jpg" onclick="openModal(22)">
-        <img src="https://i.ibb.co/MsVnCSr/Bu-yu-k-STI-5795.jpg" onclick="openModal(23)">
-        <img src="https://i.ibb.co/XJ6Rqmq/Bu-yu-k-STI-5767.jpg" onclick="openModal(24)">
-        <img src="https://i.ibb.co/5xQG54k/Bu-yu-k-STI-5672.jpg" onclick="openModal(25)">
-        <img src="https://i.ibb.co/chNnjhw/Bu-yu-k-STI-5594.jpg" onclick="openModal(26)">
-        <img src="https://i.ibb.co/GMJ2mc5/Bu-yu-k-STI-5572.jpg" onclick="openModal(27)">
-        <img src="https://i.ibb.co/nB9nhCv/Bu-yu-k-STI-5488.jpg" onclick="openModal(28)">
-        <img src="https://i.ibb.co/h1LLw5V/Bu-yu-k-STI-5453.jpg" onclick="openModal(29)">
-        <img src="https://i.ibb.co/PwfCQpB/Bu-yu-k-STI-5400.jpg" onclick="openModal(30)">
-        <img src="https://i.ibb.co/ygFb2WN/Bu-yu-k-STI-4097.jpg" onclick="openModal(31)">
+        <div class="arrows">
+            <button id="prev"><</button>
+            <button id="next">></button>
+        </div>
+        <!-- time running -->
+        <div class="time"></div>
     </div>
-</main>
 
-<div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="img01">
-    <span class="nav prev" onclick="changeImage(-1)" data-feather="chevron-left"></span>
-    <span class="nav next" onclick="changeImage(1)" data-feather="chevron-right"></span>
-    <div class="zoom-controls">
-        <button class="zoom-btn" onclick="zoom(1.2)" data-feather="zoom-in"></button>
-        <button class="zoom-btn" onclick="zoom(0.8)" data-feather="zoom-out"></button>
-        <button class="zoom-btn" onclick="toggleFullscreen()" data-feather="maximize-2"></button>
-    </div>
-</div>
-
-<script>
-    // Load Feather icons
-    feather.replace();
-
-    let currentIndex = 0;
-    const images = [
-        "https://i.ibb.co/Qr7GDjM/Bu-yu-k-STL-8853.jpg",
-        "https://i.ibb.co/7CFmygB/Bu-yu-k-STL-8827.jpg",
-        "https://i.ibb.co/MC3Dncf/Bu-yu-k-STI-9986.jpg",
-        "https://i.ibb.co/9HV8HBH/Bu-yu-k-STI-9941.jpg",
-        "https://i.ibb.co/3mVhWDK/Bu-yu-k-STI-9922.jpg",
-        "https://i.ibb.co/2swm87c/Bu-yu-k-STI-9459.jpg",
-        "https://i.ibb.co/PcHfbBY/Bu-yu-k-STI-9418.jpg",
-        "https://i.ibb.co/MpdkCxj/Bu-yu-k-STI-9407.jpg",
-        "https://i.ibb.co/m0RwsHd/Bu-yu-k-STI-9368.jpg",
-        "https://i.ibb.co/CB9B72h/Bu-yu-k-STI-9319.jpg",
-        "https://i.ibb.co/JHW2P2s/Bu-yu-k-STI-9315.jpg",
-        "https://i.ibb.co/h7ZRJ8g/Bu-yu-k-STI-9232.jpg",
-        "https://i.ibb.co/9nLFWS0/Bu-yu-k-STI-9192.jpg",
-        "https://i.ibb.co/Cn9fxk9/Bu-yu-k-STI-9177.jpg",
-        "https://i.ibb.co/kycz7r9/Bu-yu-k-STI-9162.jpg",
-        "https://i.ibb.co/B3tN3Yh/Bu-yu-k-STI-7044.jpg",
-        "https://i.ibb.co/BzGvKwq/Bu-yu-k-STI-6999.jpg",
-        "https://i.ibb.co/7Qh57c6/Bu-yu-k-STI-6868.jpg",
-        "https://i.ibb.co/mNvDct5/Bu-yu-k-STI-6809.jpg",
-        "https://i.ibb.co/2yh8tVW/Bu-yu-k-STI-6713.jpg",
-        "https://i.ibb.co/vH72Nrn/Bu-yu-k-STI-6670.jpg",
-        "https://i.ibb.co/RS6tTTn/Bu-yu-k-STI-5973.jpg",
-        "https://i.ibb.co/JK8Txmw/Bu-yu-k-STI-5925.jpg",
-        "https://i.ibb.co/MsVnCSr/Bu-yu-k-STI-5795.jpg",
-        "https://i.ibb.co/XJ6Rqmq/Bu-yu-k-STI-5767.jpg",
-        "https://i.ibb.co/5xQG54k/Bu-yu-k-STI-5672.jpg",
-        "https://i.ibb.co/chNnjhw/Bu-yu-k-STI-5594.jpg",
-        "https://i.ibb.co/GMJ2mc5/Bu-yu-k-STI-5572.jpg",
-        "https://i.ibb.co/nB9nhCv/Bu-yu-k-STI-5488.jpg",
-        "https://i.ibb.co/h1LLw5V/Bu-yu-k-STI-5453.jpg",
-        "https://i.ibb.co/PwfCQpB/Bu-yu-k-STI-5400.jpg",
-        "https://i.ibb.co/ygFb2WN/Bu-yu-k-STI-4097.jpg"
-    ];
-
-    document.addEventListener('keydown', function(event) {
-        if (document.getElementById('myModal').style.display === "block") {
-            switch (event.key) {
-                case "ArrowLeft":
-                    changeImage(-1); // Left arrow: previous image
-                    break;
-                case "ArrowRight":
-                    changeImage(1); // Right arrow: next image
-                    break;
-                case "Escape":
-                    closeModal(); // Escape key: close modal
-                    break;
-                case "ArrowUp":
-                    zoom(1.2); // Up arrow: zoom in
-                    break;
-                case "ArrowDown":
-                    zoom(0.8); // Down arrow: zoom out
-                    break;
-            }
-        }
-    });
-
-    function openModal(index) {
-        currentIndex = index;
-        document.getElementById('myModal').style.display = "block";
-        document.getElementById('img01').src = images[currentIndex];
-    }
-
-    function closeModal() {
-        document.getElementById('myModal').style.display = "none";
-    }
-
-    function changeImage(direction) {
-        currentIndex = (currentIndex + direction + images.length) % images.length;
-        document.getElementById('img01').src = images[currentIndex];
-    }
-
-    function zoom(factor) {
-        const img = document.getElementById('img01');
-        img.style.transition = 'transform 0.3s ease'; // Add smooth transition for scaling
-        img.style.transform = img.style.transform ? 
-            `scale(${parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) * factor})` : `scale(${factor})`;
-    }
-
-    function toggleFullscreen() {
-        const modal = document.getElementById('myModal');
-        if (modal.requestFullscreen) {
-            modal.requestFullscreen();
-        } else if (modal.webkitRequestFullscreen) {
-            modal.webkitRequestFullscreen();
-        } else if (modal.msRequestFullscreen) {
-            modal.msRequestFullscreen();
-        }
-    }
-</script>
-
-<div class="social-buttons">
-    <a href="https://www.instagram.com/" target="_blank" class="social-button instagram-button">
-        <i class="fab fa-instagram"></i>
-        Instagram
-    </a>
-    <a href="https://www.youtube.com/" target="_blank" class="social-button youtube-button">
-        <i class="fab fa-youtube"></i>
-        YouTube
-    </a>
-    <a href="calendar.html" class="social-button calendar-button">
-        <i class="far fa-calendar-alt"></i>
-        Takvim
-    </a>
-    <a href="services.html" class="social-button calendar-button">
-        <i class="fas fa-concierge-bell"></i>
-        Hizmetlerimiz
-    </a>
-    <a href="outdoors.html" class="social-button dış-çekimler-button">
-        <i class="fas fa-camera"></i>
-        Dış Çekimler
-    </a>
-</div>
-
+    <script src="app.js"></script>
 </body>
 </html>
